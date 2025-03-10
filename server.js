@@ -1,5 +1,6 @@
 const express = require('express');
 const mysql = require('mysql2');
+require('dotenv').config();
 const cors = require('cors');
 const crypto = require('crypto');
 
@@ -8,13 +9,13 @@ app.use(cors());
 app.use(express.json());
 
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'dharnesh10',
-    database: 'qr'
+    host: process.env.HOST || '10.30.10.18',
+    user: process.env.USER || 'attendance_user',
+    password: process.env.PASSWORD || 'ITinfra@123',
+    database: process.env.DATABASE || 'qr_attendance_db'
 });
 
-db.connect(err => {
+db.connect(err => {     
     if (err) {
         console.error('Error connecting to database:', err);
         return;
@@ -53,6 +54,6 @@ app.post('/mark-attendance', (req, res) => {
     });
 });
 
-app.listen(5000, () => {
+app.listen(process.env.PORT || 5000, '0.0.0.0', () => {
     console.log('Server running on port 5000');
 });
